@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TODO</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<section class="vh-100" style="background-color: rgba(0, 0, 0, 0.933);">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card rounded-3">
+          <div class="card-body p-4">
+ 
+            <h4 class="text-center my-3 pb-3">TODO</h4>
+            <form class="row" action="/add" method="post">
+              <div class="col-4">
+                <div class="form-outline">
+                  <input type="text" id="title" name="title" class="form-control" placeholder="Enter a task here"/>
+                </div>
+              </div>
+ 
+              <div class="col-6">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </form>
+ 
+            <table class="table mb-4">
+                <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">Todo item</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">status</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for todo in todo_list %}
+                    <tr>
+                      <th scope="row">{{todo.id }}</th>
+                      <td>{{ todo.title }}</td>
+                      {% if 10800 > todo.time_left  >= 0 %}
+                        <th scope="row">{{todo.time_left}} sec </th>                     
+                      {% elif 0 > todo.time_left %}
+                        <th scope="row">your time is end</th>
+                      {% endif %}
+                      <td>
+                        {% if todo.status == False %}
+                        <div class="alert alert-secondary" role="alert">In progress</div>
+                        {% else %}
+                        <div class="alert alert-success" role="alert">Completed</div>
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if todo.time_left >= 0 %}
+                        <a class="btn btn-success" href="/update/{{ todo.id }}">Update</a>
+                        {% endif %}
+                        <a class="btn btn-danger ms-1" href="/delete/{{ todo.id }}">Delete</a>
+                        
+                      </td>
+                      <td>
+                        {% if todo.time_left >= 0 %}
+                        <a class="btn btn-success" href="/time/{{ todo.id }}">Reload</a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html> 
